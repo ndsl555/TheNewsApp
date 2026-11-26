@@ -1,6 +1,7 @@
 package com.example.thenewsapp
 
 import android.app.Application
+import com.example.thenewsapp.di.dataModule
 import com.example.thenewsapp.di.databaseModule
 import com.example.thenewsapp.di.ioDispatcherModule
 import com.example.thenewsapp.di.networkModule
@@ -16,6 +17,7 @@ class TheNewsApplication : Application() {
             modules(
                 listOf(
                     databaseModule,
+                    dataModule,
                     viewModule,
                     ioDispatcherModule,
                     networkModule,

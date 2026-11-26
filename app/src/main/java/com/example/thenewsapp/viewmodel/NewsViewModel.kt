@@ -5,15 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.thenewsapp.models.Article
 import com.example.thenewsapp.models.NewsResponse
-import com.example.thenewsapp.repository.CRUDRepository
-import com.example.thenewsapp.repository.NewsRepository
+import com.example.thenewsapp.repository.ICRUDRepository
+import com.example.thenewsapp.repository.INewsRepository
 import com.example.thenewsapp.util.Resource
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class NewsViewModel(
-    private val newsRepository: NewsRepository,
-    private val crudRepository: CRUDRepository,
+    private val newsRepository: INewsRepository,
+    private val crudRepository: ICRUDRepository,
 ) : ViewModel() {
     val headlines: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var headlinesPage = 1
