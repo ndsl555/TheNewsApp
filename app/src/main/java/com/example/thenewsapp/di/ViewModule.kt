@@ -7,6 +7,5 @@ import org.koin.dsl.module
 
 val viewModule: Module =
     module {
-        includes(ioDispatcherModule)
         viewModel { NewsViewModel(get(), get()) }
     }

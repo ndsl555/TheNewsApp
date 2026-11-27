@@ -9,7 +9,6 @@ import org.koin.dsl.module
 
 val dataModule =
     module {
-        includes(ioDispatcherModule, databaseModule)
         factory<ICRUDRepository> { CRUDRepository(get(koinIO), get()) }
         factory<INewsRepository> { NewsRepository(get(), androidContext()) }
     }
