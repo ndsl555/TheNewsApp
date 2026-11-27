@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.thenewsapp.R
 import com.example.thenewsapp.models.Article
+import com.example.thenewsapp.util.format
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
     class ArticleViewHolder(
@@ -61,7 +62,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
             articleTitle.text = article.title
             articleDescription.text = article.description
             articleSource.text = article.source?.name
-            articleDateTime.text = article.publishedAt
+            articleDateTime.text = article.publishedAt.format()
             setOnClickListener {
                 println("article: $article")
                 onItemClickListener?.let { it(article) }
