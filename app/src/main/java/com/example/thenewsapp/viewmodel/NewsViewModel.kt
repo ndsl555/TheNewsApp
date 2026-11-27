@@ -9,6 +9,7 @@ import com.example.thenewsapp.repository.ICRUDRepository
 import com.example.thenewsapp.repository.INewsRepository
 import com.example.thenewsapp.util.Resource
 import kotlinx.coroutines.launch
+import okio.IOException
 import retrofit2.Response
 
 class NewsViewModel(
@@ -41,14 +42,28 @@ class NewsViewModel(
     private suspend fun searchNewsInternet(searchQuery: String) {
         newsSearchQuery = searchQuery
         searchNews.postValue(Resource.Loading())
-        val response = newsRepository.searchForNews(searchQuery, searchNewsPage)
-        searchNews.postValue(handleSearchNewsResponse(response))
+        try {
+            val response = newsRepository.searchForNews(searchQuery, searchNewsPage)
+            searchNews.postValue(handleSearchNewsResponse(response))
+        } catch (e: Exception) {
+            when (e) {
+                is IOException -> searchNews.postValue(Resource.Error("Unable to connect"))
+                else -> searchNews.postValue(Resource.Error("No signal"))
+            }
+        }
     }
 
     private suspend fun getHeadlinesInternet(countryCode: String) {
         headlines.postValue(Resource.Loading())
-        val response = newsRepository.getHeadlines(countryCode, headlinesPage)
-        headlines.postValue(handleHeadlinesResponse(response))
+        try {
+            val response = newsRepository.getHeadlines(countryCode, headlinesPage)
+            headlines.postValue(handleHeadlinesResponse(response))
+        } catch (e: Exception) {
+            when (e) {
+                is IOException -> headlines.postValue(Resource.Error("Unable to connect"))
+                else -> headlines.postValue(Resource.Error("No signal"))
+            }
+        }
     }
 
     // 1.

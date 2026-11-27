@@ -1,8 +1,6 @@
 package com.example.thenewsapp.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.AbsListView
 import android.widget.Button
@@ -37,12 +35,8 @@ class HeadLinesFragment : Fragment(R.layout.fragment_headlines) {
         binding = FragmentHeadlinesBinding.bind(view)
 
         itemHeadLinesError = view.findViewById(R.id.itemHeadlinesError)
-
-        val inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view: View = inflater.inflate(R.layout.item_error, null)
-
-        retryButton = view.findViewById(R.id.retryButton)
-        errorText = view.findViewById(R.id.errorText)
+        retryButton = itemHeadLinesError.findViewById(R.id.retryButton)
+        errorText = itemHeadLinesError.findViewById(R.id.errorText)
         setupHeadLinesRecycler()
         newsAdapter.setOnItemClickListener {
             val bundle =
@@ -77,11 +71,13 @@ class HeadLinesFragment : Fragment(R.layout.fragment_headlines) {
                 }
                 is Resource.Loading -> {
                     showProgressBar()
+                    hideErrorMessage()
                 }
             }
         }
         retryButton.setOnClickListener {
             viewModel.getHeadlines("us")
+            hideErrorMessage()
         }
     }
 

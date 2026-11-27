@@ -1,8 +1,6 @@
 package com.example.thenewsapp.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.AbsListView
 import android.widget.Button
@@ -44,12 +42,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         binding = FragmentSearchBinding.bind(view)
 
         itemSearchError = view.findViewById(R.id.itemSearchError)
-
-        val inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view: View = inflater.inflate(R.layout.item_error, null)
-
-        retryButton = view.findViewById(R.id.retryButton)
-        errorText = view.findViewById(R.id.errorText)
+        retryButton = itemSearchError.findViewById(R.id.retryButton)
+        errorText = itemSearchError.findViewById(R.id.errorText)
         setupSearchRecycler()
         newsAdapter.setOnItemClickListener {
             val bundle =
@@ -97,16 +91,16 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 }
                 is Resource.Loading -> {
                     showProgressBar()
+                    hideErrorMessage()
                 }
             }
         }
 
         retryButton.setOnClickListener {
-            if (binding.searchEdit.text
-                    .toString()
-                    .isNotEmpty()
-            ) {
-                viewModel.searchNews(binding.searchEdit.text.toString())
+            val query = binding.searchEdit.text.toString()
+            if (query.isNotEmpty()) {
+                hideErrorMessage()
+                viewModel.searchNews(query)
             } else {
                 hideErrorMessage()
             }
