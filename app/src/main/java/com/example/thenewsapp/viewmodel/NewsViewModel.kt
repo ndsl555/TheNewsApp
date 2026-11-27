@@ -51,6 +51,18 @@ class NewsViewModel(
         headlines.postValue(handleHeadlinesResponse(response))
     }
 
+    // 1.
+    // 第一次載入（或初始狀態）：
+    // 如果 headlinesResponse == null（表示這是第一次抓取頭條新聞），直接把這次取得的回應 it 指定給 headlinesResponse。
+    //
+    // 2.
+    // 後續載入更多（換頁）：
+    // 如果 headlinesResponse 已經有資料，代表使用者已經載入過第一頁，現在載入的是第二頁或之後的頁面。
+    // 它會取出原本快取中的舊文章列表 oldArticles（headlinesResponse?.articles）。
+    // 取出這次新抓到的文章列表 newArticles（it.articles）。
+    //
+    // 使用 oldArticles?.addAll(newArticles) 把新文章附加到舊文章的後面，達到清單累加、無限滾動的效果。
+
     private fun handleHeadlinesResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
         if (response.isSuccessful) {
             response.body()?.let { it ->

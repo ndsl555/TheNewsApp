@@ -20,6 +20,7 @@ val databaseModule =
                     ArticleRoomDatabase.DATABASE_NAME,
                 )
             builder
+                .fallbackToDestructiveMigration()
                 .build()
         }
         single { get<ArticleRoomDatabase>() as ArticleDataBase }
